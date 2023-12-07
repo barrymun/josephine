@@ -14,4 +14,4 @@ export const createSimpleChessPosition = (value: number, terminal: boolean): Che
       return [];
     }
   };
-}
+};
