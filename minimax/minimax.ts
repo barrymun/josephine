@@ -1,7 +1,9 @@
+import { ChessPosition } from "./types";
+
 export const minimax = ({
   position, depth, maximizingPlayer
 }: {
-  position: any;
+  position: ChessPosition;
   depth: number;
   maximizingPlayer: boolean;
 }) => {
