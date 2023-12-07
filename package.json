@@ -1,5 +1,5 @@
 {
-  "name": "algorithms",
+  "name": "chess-engine",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {

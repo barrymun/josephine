@@ -1,4 +1,4 @@
-# algorithms
+# chess-engine
 
 To install dependencies:
 
