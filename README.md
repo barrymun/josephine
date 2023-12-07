@@ -1,4 +1,4 @@
-# chess-engine
+# josephine (chess-engine)
 
 To install dependencies:
 

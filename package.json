@@ -1,5 +1,5 @@
 {
-  "name": "chess-engine",
+  "name": "josephine",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
