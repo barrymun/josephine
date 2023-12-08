@@ -2,7 +2,7 @@ import { Bitboard, ChessBoard } from "./types";
 
 export let board: ChessBoard;
 
-export const initChessBoard = () => {
+export const initBoard = () => {
   board = {
     // kings initially on e1 and e8
     whiteKing: BigInt("0x0800000000000000"),
@@ -34,3 +34,46 @@ export const initChessBoard = () => {
 const getBitboardPosition = (row: number, column: number): Bitboard => {
   return BigInt(1) << BigInt(row * 8 + column);
 }
+
+export const evaluateBoard = () => {
+  // Piece values
+  const pawnValue = 1;
+  const knightBishopValue = 3;
+  const rookValue = 5;
+  const queenValue = 9;
+  const winValue = 1000;
+
+  // Count the bits set in a bitboard
+  const countBits = (bitboard: Bitboard): number => {
+    let count = 0;
+    while (bitboard) {
+      count += Number(bitboard & BigInt(1));
+      bitboard >>= BigInt(1);
+    }
+    return count;
+  };
+
+  // Evaluate material
+  let score = 0;
+  score += countBits(board.whitePawns) * pawnValue;
+  score += countBits(board.whiteKnights) * knightBishopValue;
+  score += countBits(board.whiteBishops) * knightBishopValue;
+  score += countBits(board.whiteRooks) * rookValue;
+  score += countBits(board.whiteQueens) * queenValue;
+  score -= countBits(board.blackPawns) * pawnValue;
+  score -= countBits(board.blackKnights) * knightBishopValue;
+  score -= countBits(board.blackBishops) * knightBishopValue;
+  score -= countBits(board.blackRooks) * rookValue;
+  score -= countBits(board.blackQueens) * queenValue;
+
+  // Check for win/loss
+  // This is a simplification; in a real scenario, you would need to check for actual checkmate or draw conditions
+  if (board.whiteKing === BigInt(0)) return -winValue; // Black wins
+  if (board.blackKing === BigInt(0)) return winValue;  // White wins
+
+  // Draw not considered in this basic implementation
+  // In a real scenario, you'd check for draw conditions like stalemate, insufficient material, etc.
+
+  return score;
+};
+
