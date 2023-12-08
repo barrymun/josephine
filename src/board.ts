@@ -1,3 +1,4 @@
+import { knightBishopValue, pawnValue, queenValue, rookValue, winValue } from "./constants";
 import { knightBitboard, knightPositionOffsets } from "./pieces";
 import { Bitboard, ChessBoard } from "./types";
 
@@ -36,7 +37,7 @@ const getBitboardPosition = (row: number, column: number): Bitboard => {
   return BigInt(1) << BigInt(row * 8 + column);
 };
 
-const evaluatePositionGivenOffsets = (bitboard: bigint, positionOffsets: number[], baseValue: number): number => {
+export const evaluatePositionGivenOffsets = (bitboard: bigint, positionOffsets: number[], baseValue: number): number => {
   let score = 0;
   while (bitboard) {
     const index = Math.log2(Number(bitboard & -bitboard));
@@ -45,19 +46,10 @@ const evaluatePositionGivenOffsets = (bitboard: bigint, positionOffsets: number[
     // Clear the least significant bit that is set
     bitboard &= bitboard - BigInt(1);
   }
-
-  // Round the score to a reasonable precision, e.g., two decimal places
   return Math.round(score * 100) / 100;
 };
 
 export const evaluateBoard = () => {
-  // Piece values
-  const pawnValue = 1;
-  const knightBishopValue = 3;
-  const rookValue = 5;
-  const queenValue = 9;
-  const winValue = 1000;
-
   // Count the bits set in a bitboard
   const countBits = (bitboard: Bitboard): number => {
     let count = 0;
