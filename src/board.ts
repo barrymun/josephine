@@ -1,6 +1,6 @@
 import { knightBishopValue, pawnValue, queenValue, rookValue, winValue } from "./constants";
 import { knightBitboard, knightPositionOffsets } from "./pieces";
-import { Bitboard, ChessBoard } from "./types";
+import { Bitboard, ChessBoard, Player } from "./types";
 
 export let board: ChessBoard;
 
@@ -37,7 +37,17 @@ const getBitboardPosition = (row: number, column: number): Bitboard => {
   return BigInt(1) << BigInt(row * 8 + column);
 };
 
-export const evaluatePositionGivenOffsets = (bitboard: bigint, positionOffsets: number[], baseValue: number): number => {
+export const evaluatePositionGivenOffsets = ({
+  bitboard,
+  positionOffsets,
+  baseValue,
+  player,
+}: {
+  bitboard: bigint;
+  positionOffsets: number[];
+  baseValue: number;
+  player: Player;
+}): number => {
   let score = 0;
   while (bitboard) {
     const index = Math.log2(Number(bitboard & -bitboard));
@@ -46,32 +56,51 @@ export const evaluatePositionGivenOffsets = (bitboard: bigint, positionOffsets: 
     // Clear the least significant bit that is set
     bitboard &= bitboard - BigInt(1);
   }
+  if (player === 'black') {
+    score *= -1;
+  }
   return Math.round(score * 100) / 100;
 };
 
 export const evaluateBoard = () => {
   // Count the bits set in a bitboard
-  const countBits = (bitboard: Bitboard): number => {
+  // TODO: remove in lieu of evaluatePositionGivenOffsets
+  const countBits = (bitboard: Bitboard, player: Player): number => {
     let count = 0;
     while (bitboard) {
       count += Number(bitboard & BigInt(1));
       bitboard >>= BigInt(1);
     }
+    if (player === 'black') {
+      count *= -1;
+    }
     return count;
   };
 
-  // Evaluate material
+  // evaluate material
   let score = 0;
-  score += countBits(board.whitePawns) * pawnValue;
-  score += evaluatePositionGivenOffsets(board.whiteKnights, knightPositionOffsets, knightBishopValue);
-  score += countBits(board.whiteBishops) * knightBishopValue;
-  score += countBits(board.whiteRooks) * rookValue;
-  score += countBits(board.whiteQueens) * queenValue;
-  score -= countBits(board.blackPawns) * pawnValue;
-  score -= evaluatePositionGivenOffsets(board.blackKnights, knightPositionOffsets, knightBishopValue);
-  score -= countBits(board.blackBishops) * knightBishopValue;
-  score -= countBits(board.blackRooks) * rookValue;
-  score -= countBits(board.blackQueens) * queenValue;
+  // white
+  score += countBits(board.whitePawns, 'white') * pawnValue;
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.whiteKnights, 
+    positionOffsets: knightPositionOffsets,
+    baseValue: knightBishopValue,
+    player: 'white',
+  });
+  score += countBits(board.whiteBishops, 'white') * knightBishopValue;
+  score += countBits(board.whiteRooks, 'white') * rookValue;
+  score += countBits(board.whiteQueens, 'white') * queenValue;
+  // black
+  score += countBits(board.blackPawns, 'black') * pawnValue;
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.blackKnights, 
+    positionOffsets: knightPositionOffsets,
+    baseValue: knightBishopValue,
+    player: 'black',
+  });
+  score += countBits(board.blackBishops, 'black') * knightBishopValue;
+  score += countBits(board.blackRooks, 'black') * rookValue;
+  score += countBits(board.blackQueens, 'black') * queenValue;
   
   // round the score to a reasonable precision, e.g., two decimal places
   score = Math.round(score * 100) / 100;

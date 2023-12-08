@@ -23,3 +23,5 @@ export interface ChessBoard {
   castlingRights: number; // 4 bits: KQkq
   enPassantSquare: number | null; // Square index or null
 }
+
+export type Player = 'white' | 'black';
