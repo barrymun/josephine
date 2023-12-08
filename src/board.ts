@@ -1,3 +1,4 @@
+import { knightBitboard, knightPositionOffsets } from "./pieces";
 import { Bitboard, ChessBoard } from "./types";
 
 export let board: ChessBoard;
@@ -33,7 +34,41 @@ export const initBoard = () => {
 // Helper function to map row and column to bitboard position
 const getBitboardPosition = (row: number, column: number): Bitboard => {
   return BigInt(1) << BigInt(row * 8 + column);
-}
+};
+
+// const evaluatePositionGivenOffsets = (positionOffsets: number[]) => {
+//   let score = 0;
+//   for (let i = 0; i < 64; i++) {
+//     if ((knightBitboard & (BigInt(1) << BigInt(i))) !== BigInt(0)) {
+//       score += positionOffsets[i];
+//     }
+//   }
+//   return score;
+// };
+// const evaluatePositionGivenOffsets = (bitboard: bigint, positionOffsets: number[]): number => {
+//   let score = 0;
+//   console.log("===START===");
+//   while (bitboard) {
+//     // Extract the index of the least significant bit that is set
+//     const bitIndex = Math.log2(Number(bitboard & -bitboard));
+//     score += positionOffsets[bitIndex];
+//     console.log(score);
+
+//     // Clear the least significant bit that is set
+//     bitboard &= bitboard - BigInt(1);
+//   }
+//   console.log("===END===");
+//   return score;
+// };
+const evaluatePositionGivenOffsets = (bitboard: bigint, positionOffsets: number[], baseValue: number): number => {
+  let score = 0;
+  for (let i = 0; i < 64; i++) {
+    if ((bitboard & (BigInt(1) << BigInt(i))) !== BigInt(0)) {
+      score += baseValue + positionOffsets[i]; // adjust the base value by the offset
+    }
+  }
+  return score;
+};
 
 export const evaluateBoard = () => {
   // Piece values
@@ -56,15 +91,22 @@ export const evaluateBoard = () => {
   // Evaluate material
   let score = 0;
   score += countBits(board.whitePawns) * pawnValue;
-  score += countBits(board.whiteKnights) * knightBishopValue;
+  console.log({ score });
+  score += evaluatePositionGivenOffsets(board.whiteKnights, knightPositionOffsets, knightBishopValue);
+  console.log({ score });
   score += countBits(board.whiteBishops) * knightBishopValue;
+  console.log({ score });
   score += countBits(board.whiteRooks) * rookValue;
   score += countBits(board.whiteQueens) * queenValue;
+  console.log({ x: score });
   score -= countBits(board.blackPawns) * pawnValue;
-  score -= countBits(board.blackKnights) * knightBishopValue;
+  console.log({ score });
+  score -= evaluatePositionGivenOffsets(board.blackKnights, knightPositionOffsets, knightBishopValue);
+  console.log({ score });
   score -= countBits(board.blackBishops) * knightBishopValue;
   score -= countBits(board.blackRooks) * rookValue;
   score -= countBits(board.blackQueens) * queenValue;
+  console.log({ score });
 
   // Check for win/loss
   // This is a simplification; in a real scenario, you would need to check for actual checkmate or draw conditions
@@ -76,4 +118,3 @@ export const evaluateBoard = () => {
 
   return score;
 };
-
