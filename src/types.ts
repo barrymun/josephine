@@ -3,3 +3,5 @@ export type ChessPosition = {
   isTerminal: () => boolean;
   children: () => ChessPosition[];
 }
+
+export type Bitboard = bigint; // Using bigint for 64-bit integer
