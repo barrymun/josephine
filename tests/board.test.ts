@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import { board, evaluatePositionGivenOffsets, initBoard } from "../src/board";
+import { evaluatePositionGivenOffsets } from "../src/board";
 import {
   pawnPositionOffsets,
   knightPositionOffsets,
@@ -16,13 +16,12 @@ import {
   queenValue,
   // winValue, // TODO:
 } from "../src/constants";
-
-initBoard();
+import { state } from "../src/state";
 
 describe("test evaluatePositionGivenOffsets for white pieces", () => {
   it("calculate score for white pawns in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.whitePawns,
+      bitboard: state.board.whitePawns,
       positionOffsets: pawnPositionOffsets,
       baseValue: pawnValue,
       player: "white",
@@ -32,7 +31,7 @@ describe("test evaluatePositionGivenOffsets for white pieces", () => {
 
   it("calculate score for white knights in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.whiteKnights,
+      bitboard: state.board.whiteKnights,
       positionOffsets: knightPositionOffsets,
       baseValue: knightBishopValue,
       player: "white",
@@ -42,7 +41,7 @@ describe("test evaluatePositionGivenOffsets for white pieces", () => {
 
   it("calculate score for white bishops in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.whiteBishops,
+      bitboard: state.board.whiteBishops,
       positionOffsets: bishopPositionOffsets,
       baseValue: knightBishopValue,
       player: "white",
@@ -52,7 +51,7 @@ describe("test evaluatePositionGivenOffsets for white pieces", () => {
 
   it("calculate score for white rooks in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.whiteRooks,
+      bitboard: state.board.whiteRooks,
       positionOffsets: rookPositionOffsets,
       baseValue: rookValue,
       player: "white",
@@ -62,7 +61,7 @@ describe("test evaluatePositionGivenOffsets for white pieces", () => {
 
   it("calculate score for white queens in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.whiteQueens,
+      bitboard: state.board.whiteQueens,
       positionOffsets: queenPositionOffsets,
       baseValue: queenValue,
       player: "white",
@@ -72,7 +71,7 @@ describe("test evaluatePositionGivenOffsets for white pieces", () => {
 
   it("calculate score for white king in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.whiteKing,
+      bitboard: state.board.whiteKing,
       positionOffsets: kingPositionOffsets,
       baseValue: 0,
       player: "white",
@@ -84,7 +83,7 @@ describe("test evaluatePositionGivenOffsets for white pieces", () => {
 describe("test evaluatePositionGivenOffsets for black pieces", () => {
   it("calculate score for black pawns in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.blackPawns,
+      bitboard: state.board.blackPawns,
       positionOffsets: pawnPositionOffsets,
       baseValue: pawnValue,
       player: "black",
@@ -94,7 +93,7 @@ describe("test evaluatePositionGivenOffsets for black pieces", () => {
 
   it("calculate score for black knights in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.blackKnights,
+      bitboard: state.board.blackKnights,
       positionOffsets: knightPositionOffsets,
       baseValue: knightBishopValue,
       player: "black",
@@ -104,7 +103,7 @@ describe("test evaluatePositionGivenOffsets for black pieces", () => {
 
   it("calculate score for black bishops in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.blackBishops,
+      bitboard: state.board.blackBishops,
       positionOffsets: bishopPositionOffsets,
       baseValue: knightBishopValue,
       player: "black",
@@ -114,7 +113,7 @@ describe("test evaluatePositionGivenOffsets for black pieces", () => {
 
   it("calculate score for black rooks in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.blackRooks,
+      bitboard: state.board.blackRooks,
       positionOffsets: rookPositionOffsets,
       baseValue: rookValue,
       player: "black",
@@ -124,7 +123,7 @@ describe("test evaluatePositionGivenOffsets for black pieces", () => {
 
   it("calculate score for black queens in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.blackQueens,
+      bitboard: state.board.blackQueens,
       positionOffsets: queenPositionOffsets,
       baseValue: queenValue,
       player: "black",
@@ -134,7 +133,7 @@ describe("test evaluatePositionGivenOffsets for black pieces", () => {
 
   it("calculate score for black king in opening position", () => {
     const score = evaluatePositionGivenOffsets({
-      bitboard: board.blackKing,
+      bitboard: state.board.blackKing,
       positionOffsets: kingPositionOffsets,
       baseValue: 0,
       player: "black",

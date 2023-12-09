@@ -1,4 +1,5 @@
-import { board, evaluateBoard, initBoard } from "./board";
+import { evaluateBoard } from "./board";
+import { state } from "./state";
 
 // const initialPosition = createSimpleChessPosition(0, false);
 // const result = minimax({
@@ -9,8 +10,7 @@ import { board, evaluateBoard, initBoard } from "./board";
 // console.log({ result });
 
 const run = () => {
-  initBoard();
-  console.log(board.whitePawns);
-  console.log(evaluateBoard());
+  console.log(state.board.whitePawns);
+  console.log(evaluateBoard(state.board));
 };
 run();

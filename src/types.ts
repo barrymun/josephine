@@ -18,4 +18,8 @@ export interface ChessBoard {
   enPassantSquare: number | null; // Square index or null
 }
 
+export interface State {
+  board: ChessBoard;
+}
+
 export type Player = "white" | "black";

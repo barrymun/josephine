@@ -9,10 +9,8 @@ import {
 } from "./pieces";
 import { ChessBoard, Player } from "./types";
 
-export let board: ChessBoard;
-
-export const initBoard = () => {
-  board = {
+export const initBoard = (): ChessBoard => {
+  const board = {
     // kings initially on e1 and e8
     whiteKing: BigInt("0x0800000000000000"),
     // queens initially on d1 and d8
@@ -37,6 +35,7 @@ export const initBoard = () => {
     castlingRights: 0b1111, // all castling rights available initially
     enPassantSquare: null, // no en passant square initially
   };
+  return board;
 };
 
 // Helper function to map row and column to bitboard position
@@ -69,7 +68,7 @@ export const evaluatePositionGivenOffsets = ({
   return Math.round(score * 100) / 100;
 };
 
-export const evaluateBoard = () => {
+export const evaluateBoard = (board: ChessBoard) => {
   // evaluate material
   let score = 0;
   // white
