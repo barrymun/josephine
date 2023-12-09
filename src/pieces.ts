@@ -1,5 +1,16 @@
 import { convertOffsetsToBitboard } from "./helpers";
 
+export const pawnPositionOffsets: number[] = [
+  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+  0.1, 0.1, 0.2, 0.3, 0.3, 0.2, 0.1, 0.1,
+  0.05, 0.05, 0.1, 0.25, 0.25, 0.1, 0.05, 0.05,
+  0.0, 0.0, 0.2, 0.3, 0.3, 0.2, 0.0, 0.0,
+  0.05, 0.05, 0.1, 0.2, 0.2, 0.1, 0.05, 0.05,
+  0.1, 0.1, 0.2, 0.0, 0.0, 0.2, 0.1, 0.1,
+  0.1, 0.1, 0.0, -0.1, -0.1, 0.0, 0.1, 0.1,
+  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+];
+
 export const knightPositionOffsets: number[] = [
   -0.5, -0.4, -0.4, -0.4, -0.4, -0.4, -0.4, -0.5,
   -0.4, -0.2,  0.0,  0.0,  0.0,  0.0, -0.2, -0.4,
@@ -11,4 +22,54 @@ export const knightPositionOffsets: number[] = [
   -0.5, -0.4, -0.4, -0.4, -0.4, -0.4, -0.4, -0.5,
 ];
 
+export const bishopPositionOffsets: number[] = [
+  0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.0,
+  0.0, 0.0, 0.1, 0.15, 0.15, 0.1, 0.0, 0.0,
+  0.0, 0.1, 0.15, 0.2, 0.2, 0.15, 0.1, 0.0,
+  0.0, 0.1, 0.2, 0.25, 0.25, 0.2, 0.1, 0.0,
+  0.0, 0.1, 0.2, 0.25, 0.25, 0.2, 0.1, 0.0,
+  0.0, 0.0, 0.15, 0.2, 0.2, 0.15, 0.0, 0.0,
+  0.0, 0.0, 0.1, 0.15, 0.15, 0.1, 0.0, 0.0,
+  0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.0,
+];
+
+export const rookPositionOffsets: number[] = [
+  0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.0,
+  0.0, 0.0, 0.15, 0.15, 0.15, 0.15, 0.0, 0.0,
+  0.0, 0.0, 0.15, 0.2, 0.2, 0.15, 0.0, 0.0,
+  0.0, 0.0, 0.15, 0.2, 0.2, 0.15, 0.0, 0.0,
+  0.0, 0.0, 0.15, 0.2, 0.2, 0.15, 0.0, 0.0,
+  0.0, 0.0, 0.15, 0.15, 0.15, 0.15, 0.0, 0.0,
+  0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.0,
+  0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.0,
+];
+
+export const queenPositionOffsets: number[] = [
+  0.0, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.0,
+  0.0, 0.1, 0.15, 0.2, 0.2, 0.15, 0.1, 0.0,
+  0.0, 0.15, 0.2, 0.25, 0.25, 0.2, 0.15, 0.0,
+  0.0, 0.2, 0.25, 0.3, 0.3, 0.25, 0.2, 0.0,
+  0.0, 0.2, 0.25, 0.3, 0.3, 0.25, 0.2, 0.0,
+  0.0, 0.15, 0.2, 0.25, 0.25, 0.2, 0.15, 0.0,
+  0.0, 0.1, 0.15, 0.2, 0.2, 0.15, 0.1, 0.0,
+  0.0, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.0,
+];
+
+export const kingPositionOffsets: number[] = [
+  0.3, 0.4, 0.2, 0.1, 0.1, 0.2, 0.4, 0.3,
+  0.3, 0.4, 0.2, 0.1, 0.1, 0.2, 0.4, 0.3,
+  0.2, 0.3, 0.1, 0.0, 0.0, 0.1, 0.3, 0.2,
+  0.1, 0.2, 0.0, -0.1, -0.1, 0.0, 0.2, 0.1,
+  0.1, 0.2, 0.0, -0.1, -0.1, 0.0, 0.2, 0.1,
+  0.2, 0.3, 0.1, 0.0, 0.0, 0.1, 0.3, 0.2,
+  0.3, 0.4, 0.2, 0.1, 0.1, 0.2, 0.4, 0.3,
+  0.3, 0.4, 0.2, 0.1, 0.1, 0.2, 0.4, 0.3,
+];
+
+
+export const pawnBitboard = convertOffsetsToBitboard(pawnPositionOffsets);
 export const knightBitboard = convertOffsetsToBitboard(knightPositionOffsets);
+export const bishopBitboard = convertOffsetsToBitboard(bishopPositionOffsets);
+export const rookBitboard = convertOffsetsToBitboard(rookPositionOffsets);
+export const queenBitboard = convertOffsetsToBitboard(queenPositionOffsets);
+export const kingBitboard = convertOffsetsToBitboard(kingPositionOffsets);
