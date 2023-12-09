@@ -1,5 +1,18 @@
-import { knightBishopValue, pawnValue, queenValue, rookValue, winValue } from "./constants";
-import { knightBitboard, knightPositionOffsets } from "./pieces";
+import { 
+  knightBishopValue, 
+  pawnValue, 
+  queenValue, 
+  rookValue, 
+  winValue,
+} from "./constants";
+import { 
+  bishopPositionOffsets,
+  kingPositionOffsets,
+  knightPositionOffsets,
+  pawnPositionOffsets,
+  queenPositionOffsets,
+  rookPositionOffsets,
+} from "./pieces";
 import { Bitboard, ChessBoard, Player } from "./types";
 
 export let board: ChessBoard;
@@ -63,44 +76,82 @@ export const evaluatePositionGivenOffsets = ({
 };
 
 export const evaluateBoard = () => {
-  // Count the bits set in a bitboard
-  // TODO: remove in lieu of evaluatePositionGivenOffsets
-  const countBits = (bitboard: Bitboard, player: Player): number => {
-    let count = 0;
-    while (bitboard) {
-      count += Number(bitboard & BigInt(1));
-      bitboard >>= BigInt(1);
-    }
-    if (player === 'black') {
-      count *= -1;
-    }
-    return count;
-  };
-
   // evaluate material
   let score = 0;
   // white
-  score += countBits(board.whitePawns, 'white') * pawnValue;
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.whitePawns, 
+    positionOffsets: pawnPositionOffsets,
+    baseValue: pawnValue,
+    player: 'white',
+  });
   score += evaluatePositionGivenOffsets({
     bitboard: board.whiteKnights, 
     positionOffsets: knightPositionOffsets,
     baseValue: knightBishopValue,
     player: 'white',
   });
-  score += countBits(board.whiteBishops, 'white') * knightBishopValue;
-  score += countBits(board.whiteRooks, 'white') * rookValue;
-  score += countBits(board.whiteQueens, 'white') * queenValue;
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.whiteBishops, 
+    positionOffsets: bishopPositionOffsets,
+    baseValue: knightBishopValue,
+    player: 'white',
+  });
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.whiteRooks, 
+    positionOffsets: rookPositionOffsets,
+    baseValue: rookValue,
+    player: 'white',
+  });
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.whiteQueens, 
+    positionOffsets: queenPositionOffsets,
+    baseValue: queenValue,
+    player: 'white',
+  });
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.whiteKing, 
+    positionOffsets: kingPositionOffsets,
+    baseValue: 0, // TODO: might assign a different weight for the king
+    player: 'white',
+  });
   // black
-  score += countBits(board.blackPawns, 'black') * pawnValue;
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.blackPawns, 
+    positionOffsets: pawnPositionOffsets.toReversed(),
+    baseValue: pawnValue,
+    player: 'black',
+  });
   score += evaluatePositionGivenOffsets({
     bitboard: board.blackKnights, 
-    positionOffsets: knightPositionOffsets,
+    positionOffsets: knightPositionOffsets.toReversed(),
     baseValue: knightBishopValue,
     player: 'black',
   });
-  score += countBits(board.blackBishops, 'black') * knightBishopValue;
-  score += countBits(board.blackRooks, 'black') * rookValue;
-  score += countBits(board.blackQueens, 'black') * queenValue;
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.blackBishops, 
+    positionOffsets: bishopPositionOffsets.toReversed(),
+    baseValue: knightBishopValue,
+    player: 'black',
+  });
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.blackRooks, 
+    positionOffsets: rookPositionOffsets.toReversed(),
+    baseValue: rookValue,
+    player: 'black',
+  });
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.blackQueens, 
+    positionOffsets: queenPositionOffsets.toReversed(),
+    baseValue: queenValue,
+    player: 'black',
+  });
+  score += evaluatePositionGivenOffsets({
+    bitboard: board.blackKing, 
+    positionOffsets: kingPositionOffsets.toReversed(),
+    baseValue: 0, // TODO: might assign a different weight for the king
+    player: 'black',
+  });
   
   // round the score to a reasonable precision, e.g., two decimal places
   score = Math.round(score * 100) / 100;
