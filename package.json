@@ -4,12 +4,31 @@
   "type": "module",
   "devDependencies": {
     "@types/lodash": "^4.14.202",
-    "bun-types": "latest"
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "bun-types": "latest",
+    "eslint": "^8.55.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "lodash": "^4.17.21"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "prettier --write \"src/**/*.ts\""
+    ],
+    "tests/**/*.ts": [
+      "prettier --write \"tests/**/*.ts\""
+    ]
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "yarn eslint src/**/*.ts && yarn eslint tests/**/*.ts",
+    "test": "bun test"
   }
 }

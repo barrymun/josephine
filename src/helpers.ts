@@ -18,10 +18,10 @@ export const createSimpleChessPosition = (value: number, terminal: boolean): Che
       if (!terminal) {
         return [
           createSimpleChessPosition(value + Math.random(), false),
-          createSimpleChessPosition(value - Math.random(), false)
+          createSimpleChessPosition(value - Math.random(), false),
         ];
       }
       return [];
-    }
+    },
   };
 };

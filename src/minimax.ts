@@ -1,7 +1,9 @@
 import { ChessPosition } from "./types";
 
 export const minimax = ({
-  position, depth, maximizingPlayer
+  position,
+  depth,
+  maximizingPlayer,
 }: {
   position: ChessPosition;
   depth: number;
@@ -12,23 +14,22 @@ export const minimax = ({
   }
   if (maximizingPlayer) {
     let bestValue = -Infinity;
-    for (let child of position.children()) {
-      let value = minimax({
+    for (const child of position.children()) {
+      const value = minimax({
         position: child,
         depth: depth - 1,
-        maximizingPlayer: false
+        maximizingPlayer: false,
       });
       bestValue = Math.max(bestValue, value);
     }
     return bestValue;
-  }
-  else {
+  } else {
     let bestValue = Infinity;
-    for (let child of position.children()) {
-      let value = minimax({
+    for (const child of position.children()) {
+      const value = minimax({
         position: child,
         depth: depth - 1,
-        maximizingPlayer: true
+        maximizingPlayer: true,
       });
       bestValue = Math.min(bestValue, value);
     }

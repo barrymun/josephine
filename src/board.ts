@@ -1,11 +1,5 @@
-import { 
-  knightBishopValue, 
-  pawnValue, 
-  queenValue, 
-  rookValue, 
-  winValue,
-} from "./constants";
-import { 
+import { knightBishopValue, pawnValue, queenValue, rookValue, winValue } from "./constants";
+import {
   bishopPositionOffsets,
   kingPositionOffsets,
   knightPositionOffsets,
@@ -13,7 +7,7 @@ import {
   queenPositionOffsets,
   rookPositionOffsets,
 } from "./pieces";
-import { Bitboard, ChessBoard, Player } from "./types";
+import { ChessBoard, Player } from "./types";
 
 export let board: ChessBoard;
 
@@ -46,9 +40,9 @@ export const initBoard = () => {
 };
 
 // Helper function to map row and column to bitboard position
-const getBitboardPosition = (row: number, column: number): Bitboard => {
-  return BigInt(1) << BigInt(row * 8 + column);
-};
+// const getBitboardPosition = (row: number, column: number): Bitboard => {
+//   return BigInt(1) << BigInt(row * 8 + column);
+// };
 
 export const evaluatePositionGivenOffsets = ({
   bitboard,
@@ -69,7 +63,7 @@ export const evaluatePositionGivenOffsets = ({
     // Clear the least significant bit that is set
     bitboard &= bitboard - BigInt(1);
   }
-  if (player === 'black') {
+  if (player === "black") {
     score *= -1;
   }
   return Math.round(score * 100) / 100;
@@ -80,79 +74,79 @@ export const evaluateBoard = () => {
   let score = 0;
   // white
   score += evaluatePositionGivenOffsets({
-    bitboard: board.whitePawns, 
+    bitboard: board.whitePawns,
     positionOffsets: pawnPositionOffsets,
     baseValue: pawnValue,
-    player: 'white',
+    player: "white",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.whiteKnights, 
+    bitboard: board.whiteKnights,
     positionOffsets: knightPositionOffsets,
     baseValue: knightBishopValue,
-    player: 'white',
+    player: "white",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.whiteBishops, 
+    bitboard: board.whiteBishops,
     positionOffsets: bishopPositionOffsets,
     baseValue: knightBishopValue,
-    player: 'white',
+    player: "white",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.whiteRooks, 
+    bitboard: board.whiteRooks,
     positionOffsets: rookPositionOffsets,
     baseValue: rookValue,
-    player: 'white',
+    player: "white",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.whiteQueens, 
+    bitboard: board.whiteQueens,
     positionOffsets: queenPositionOffsets,
     baseValue: queenValue,
-    player: 'white',
+    player: "white",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.whiteKing, 
+    bitboard: board.whiteKing,
     positionOffsets: kingPositionOffsets,
     baseValue: 0, // TODO: might assign a different weight for the king
-    player: 'white',
+    player: "white",
   });
   // black
   score += evaluatePositionGivenOffsets({
-    bitboard: board.blackPawns, 
+    bitboard: board.blackPawns,
     positionOffsets: pawnPositionOffsets.toReversed(),
     baseValue: pawnValue,
-    player: 'black',
+    player: "black",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.blackKnights, 
+    bitboard: board.blackKnights,
     positionOffsets: knightPositionOffsets.toReversed(),
     baseValue: knightBishopValue,
-    player: 'black',
+    player: "black",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.blackBishops, 
+    bitboard: board.blackBishops,
     positionOffsets: bishopPositionOffsets.toReversed(),
     baseValue: knightBishopValue,
-    player: 'black',
+    player: "black",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.blackRooks, 
+    bitboard: board.blackRooks,
     positionOffsets: rookPositionOffsets.toReversed(),
     baseValue: rookValue,
-    player: 'black',
+    player: "black",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.blackQueens, 
+    bitboard: board.blackQueens,
     positionOffsets: queenPositionOffsets.toReversed(),
     baseValue: queenValue,
-    player: 'black',
+    player: "black",
   });
   score += evaluatePositionGivenOffsets({
-    bitboard: board.blackKing, 
+    bitboard: board.blackKing,
     positionOffsets: kingPositionOffsets.toReversed(),
     baseValue: 0, // TODO: might assign a different weight for the king
-    player: 'black',
+    player: "black",
   });
-  
+
   // round the score to a reasonable precision, e.g., two decimal places
   score = Math.round(score * 100) / 100;
   console.log({ score });
@@ -160,7 +154,7 @@ export const evaluateBoard = () => {
   // Check for win/loss
   // This is a simplification; in a real scenario, you would need to check for actual checkmate or draw conditions
   if (board.whiteKing === BigInt(0)) return -winValue; // Black wins
-  if (board.blackKing === BigInt(0)) return winValue;  // White wins
+  if (board.blackKing === BigInt(0)) return winValue; // White wins
 
   // Draw not considered in this basic implementation
   // In a real scenario, you'd check for draw conditions like stalemate, insufficient material, etc.
