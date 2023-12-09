@@ -1,5 +1,5 @@
-// import { evaluateBoard } from "./board";
-// import { ChessBoard } from "./types";
+// import { evaluateBoard } from "board";
+// import { ChessBoard } from "types";
 
 // const generatePawnMoves = ({
 //   board,

@@ -15,7 +15,7 @@ import {
   rookValue,
   queenValue,
   // winValue, // TODO:
-} from "../src/constants";
+} from "../src/config";
 import { state } from "../src/state";
 
 describe("test evaluatePositionGivenOffsets for white pieces", () => {

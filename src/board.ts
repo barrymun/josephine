@@ -1,4 +1,4 @@
-import { knightBishopValue, pawnValue, queenValue, rookValue, winValue } from "./constants";
+import { knightBishopValue, pawnValue, queenValue, rookValue, winValue } from "config";
 import {
   bishopPositionOffsets,
   kingPositionOffsets,
@@ -6,8 +6,8 @@ import {
   pawnPositionOffsets,
   queenPositionOffsets,
   rookPositionOffsets,
-} from "./pieces";
-import { ChessBoard, Player } from "./types";
+} from "pieces";
+import { ChessBoard, Player } from "types";
 
 export const initBoard = (): ChessBoard => {
   const board = {

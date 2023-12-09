@@ -1,5 +1,5 @@
-import { evaluateBoard } from "./board";
-import { state } from "./state";
+import { evaluateBoard } from "board";
+import { state } from "state";
 
 // const initialPosition = createSimpleChessPosition(0, false);
 // const result = minimax({
