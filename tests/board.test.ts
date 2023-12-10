@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import { evaluatePositionGivenOffsets } from "../src/board";
+import { evaluatePositionGivenOffsets } from "../src/evaluate";
 import {
   pawnPositionOffsets,
   knightPositionOffsets,

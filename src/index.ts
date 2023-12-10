@@ -1,4 +1,4 @@
-import { evaluateBoard } from "board";
+import { evaluateBoard } from "evaluate";
 import { state } from "state";
 
 const run = () => {
